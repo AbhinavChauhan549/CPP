@@ -31,11 +31,14 @@ int knapsack(int wt[], int val[], int threshold, int sizeofarr)
   }
 
   // Choice Diagram
+
+  // choice 1
   if (wt[sizeofarr - 1] <= threshold)
   {
     return max(val[sizeofarr - 1] + knapsack(wt, val, threshold - wt[sizeofarr - 1], sizeofarr - 1), knapsack(wt, val, threshold, sizeofarr - 1));
   }
 
+  // choice 2
   else if (wt[sizeofarr - 1] > threshold)
   {
     return knapsack(wt, val, threshold, sizeofarr - 1);
@@ -69,6 +72,48 @@ int knapsack2(int wt[], int val[], int threshold, int sizeofarr)
   {
     return knapsack(wt, val, threshold, sizeofarr - 1);
   }
+}
+
+// Top down
+// in this we create matrix with respect to the changing variables as the dimension of the matrix
+// the base condition of recursive solution becomes the initialization condition for the top down approach
+// int n = 100;
+// int w=1000;
+
+int knapsackTopDown(int wt[], int val[], int w, int n)
+{
+
+  int t[n + 1][w + 1];
+  // initialization
+
+  for (int i = 0; i < n + 1; i++)
+  {
+    for (int j = 0; j < w + 1; j++)
+    {
+      if (i == 0 || j == 0)
+      {
+        t[i][j] = 0;
+      }
+    }
+  }
+
+  for (int i = 1; i < n + 1; i++)
+  {
+    for (int j = 1; j < w + 1; j++)
+    {
+
+      if (wt[i - 1] <= j)
+      {
+        t[i][j] = max(val[i - 1] + t[i - 1][j - wt[i - 1]], t[i - 1][j]);
+      }
+
+      else
+      {
+        t[i][j] = t[i - 1][j];
+      }
+    }
+  }
+  return t[n][w];
 }
 
 int main()
