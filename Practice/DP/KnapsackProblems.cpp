@@ -311,3 +311,7 @@ int main()
 */
 
 // ==============================================================================================================================
+
+// 6 Target Sum Problem
+
+// this problem is similar to the difference of subset problem only the difference is that in this we are sign -/+ and sum and in that we are given with difference , this question is the molded form of difference between subset problem
