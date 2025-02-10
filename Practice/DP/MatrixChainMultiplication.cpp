@@ -10,7 +10,10 @@
 
 #include <iostream>
 #include <climits>
+#include <cstring>
 using namespace std;
+
+// Recursive Approach
 int MatrixChainMultiplication(int p[], int i, int j)
 {
 
@@ -31,9 +34,44 @@ int MatrixChainMultiplication(int p[], int i, int j)
   }
   return min;
 }
+
+// Memorized Approach
+int MCMMemorized(int p[], int i, int j, int dp[10][10])
+{
+
+  if (i == j)
+  {
+    return 0;
+  }
+
+  if (dp[i][j] != -1)
+  {
+    return dp[i][j];
+  }
+
+  int min = INT_MAX;
+
+  for (int k = i; k < j; k++)
+  {
+    int temp = MCMMemorized(p, i, k, dp) + MCMMemorized(p, k + 1, j, dp) + p[i - 1] * p[k] * p[j];
+    if (temp < min)
+    {
+      min = temp;
+    }
+  }
+  return dp[i][j] = min;
+}
+
+int MCMMemorized(int p[], int i, int j)
+{
+  int dp[10][10];
+  memset(dp, -1, sizeof(dp));
+  return MCMMemorized(p, i, j, dp);
+}
 int main()
 {
   int arr[] = {40, 20, 30, 10, 30};
   cout << MatrixChainMultiplication(arr, 1, 4) << endl;
+  cout << MCMMemorized(arr, 1, 4) << endl;
   return 0;
 }
