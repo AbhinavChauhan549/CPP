@@ -39,9 +39,13 @@ int PPRecursive(string s, int i, int j)
   }
   return min;
 }
+
+// Memorized Approach
+
 int main()
 {
-  string s = "nitin"; // output = 0
+  // string s = "nitin"; // output = 0
+  string s = "nitik"; // output = 2
 
   int n = s.length();
   cout << PPRecursive(s, 0, n - 1) << endl;
