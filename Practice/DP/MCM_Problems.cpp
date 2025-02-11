@@ -1,5 +1,5 @@
 // 1. Palindrome Partitioning
-
+/*
 #include <iostream>
 #include <climits>
 #include <cstring>
@@ -132,6 +132,165 @@ int main()
   int n = s.length();
   cout << PPRecursive(s, 0, n - 1) << endl;
   cout << PPMemorized(s, 0, n - 1) << endl;
+
+  return 0;
+}
+  */
+
+//==============================================================================================================================================
+
+// 2. Evaluate Expression to True / Boolean Parenthesization
+
+/*
+#include <bits/stdc++.h>
+using namespace std;
+
+// Memoization map
+unordered_map<string, int> dp;
+
+int countWays(string &s, int i, int j, bool isTrue)
+{
+  // Base case: Single character
+  if (i == j)
+  {
+    if (isTrue)
+      return s[i] == 'T';
+    else
+      return s[i] == 'F';
+  }
+
+  // Create a unique key for memoization
+  string key = to_string(i) + "_" + to_string(j) + "_" + to_string(isTrue);
+  if (dp.find(key) != dp.end())
+    return dp[key];
+
+  int ways = 0;
+
+  // Iterate over operators
+  for (int k = i + 1; k < j; k += 2)
+  {
+    char op = s[k]; // Operator at position k
+
+    // Recursively calculate left and right partitions
+    int leftTrue = countWays(s, i, k - 1, true);
+    int leftFalse = countWays(s, i, k - 1, false);
+    int rightTrue = countWays(s, k + 1, j, true);
+    int rightFalse = countWays(s, k + 1, j, false);
+
+    // Compute ways based on the operator
+    if (op == '&')
+    {
+      if (isTrue)
+        ways += leftTrue * rightTrue;
+      else
+        ways += (leftTrue * rightFalse) + (leftFalse * rightTrue) + (leftFalse * rightFalse);
+    }
+    else if (op == '|')
+    {
+      if (isTrue)
+        ways += (leftTrue * rightTrue) + (leftTrue * rightFalse) + (leftFalse * rightTrue);
+      else
+        ways += leftFalse * rightFalse;
+    }
+    else if (op == '^')
+    {
+      if (isTrue)
+        ways += (leftTrue * rightFalse) + (leftFalse * rightTrue);
+      else
+        ways += (leftTrue * rightTrue) + (leftFalse * rightFalse);
+    }
+  }
+
+  return dp[key] = ways; // Store result in memoization map
+}
+
+int main()
+{
+  string expression = "T|F&T^T"; // Expression: T OR F AND T XOR T
+  int n = expression.size();
+
+  dp.clear(); // Clear memoization map
+  cout << "Number of ways to evaluate the expression to true: "
+       << countWays(expression, 0, n - 1, true) << endl;
+
+  return 0;
+}
+*/
+
+//==============================================================================================================================================
+
+// 3 . Evaluate Expression to True / Boolean Parenthesization(memorized)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Memoization table
+unordered_map<string, int> dp;
+
+int countWays(string &s, int i, int j, bool isTrue)
+{
+  // Base case: If the subexpression has only one character
+  if (i == j)
+  {
+    if (isTrue)
+      return s[i] == 'T';
+    else
+      return s[i] == 'F';
+  }
+
+  // Check if result is already computed
+  string key = to_string(i) + "_" + to_string(j) + "_" + to_string(isTrue);
+  if (dp.find(key) != dp.end())
+    return dp[key];
+
+  int ways = 0;
+
+  // Iterate over operators
+  for (int k = i + 1; k < j; k += 2)
+  {
+    char op = s[k]; // Operator at position k
+
+    // Recursively calculate left and right partitions
+    int leftTrue = countWays(s, i, k - 1, true);
+    int leftFalse = countWays(s, i, k - 1, false);
+    int rightTrue = countWays(s, k + 1, j, true);
+    int rightFalse = countWays(s, k + 1, j, false);
+
+    // Apply the Boolean operation
+    if (op == '&')
+    {
+      if (isTrue)
+        ways += leftTrue * rightTrue;
+      else
+        ways += (leftTrue * rightFalse) + (leftFalse * rightTrue) + (leftFalse * rightFalse);
+    }
+    else if (op == '|')
+    {
+      if (isTrue)
+        ways += (leftTrue * rightTrue) + (leftTrue * rightFalse) + (leftFalse * rightTrue);
+      else
+        ways += leftFalse * rightFalse;
+    }
+    else if (op == '^')
+    {
+      if (isTrue)
+        ways += (leftTrue * rightFalse) + (leftFalse * rightTrue);
+      else
+        ways += (leftTrue * rightTrue) + (leftFalse * rightFalse);
+    }
+  }
+
+  return dp[key] = ways; // Store the computed result
+}
+
+int main()
+{
+  string expression = "T|F&T^T"; // Boolean expression
+  int n = expression.size();
+
+  dp.clear(); // Clear memoization table
+  cout << "Number of ways to evaluate the expression to true: "
+       << countWays(expression, 0, n - 1, true) << endl;
 
   return 0;
 }
