@@ -400,3 +400,41 @@ int main()
   return 0;
 }
   */
+
+//==============================================================================================================================================
+
+// 5. Egg Dropping Problem
+
+#include <iostream>
+#include <climits>
+#include <cstring>
+using namespace std;
+
+int EDP(int eggs, int floors)
+{
+
+  if (eggs == 1 || floors == 0 || floors == 1)
+  {
+    return floors;
+  }
+  int min = INT_MAX;
+  for (int i = 1; i <= floors; i++)
+  {
+    int left = EDP(eggs - 1, i - 1);
+    int right = EDP(eggs, floors - i);
+    int steps = 1 + max(left, right);
+    if (steps < min)
+    {
+      min = steps;
+    }
+  }
+  return min;
+}
+int main()
+{
+  int egg = 3;
+  int floor = 5;
+
+  cout << EDP(egg, floor);
+  return 0;
+}
