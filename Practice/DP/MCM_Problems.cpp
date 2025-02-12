@@ -220,7 +220,7 @@ int main()
 //==============================================================================================================================================
 
 // 3 . Evaluate Expression to True / Boolean Parenthesization(memorized)
-
+/*
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -292,5 +292,69 @@ int main()
   cout << "Number of ways to evaluate the expression to true: "
        << countWays(expression, 0, n - 1, true) << endl;
 
+  return 0;
+}
+*/
+
+//==============================================================================================================================================
+
+// 4. Scramble String
+
+#include <iostream>
+using namespace std;
+
+bool solve(string s1, string s2)
+{
+
+  int n = s1.length();
+  int m = s2.length();
+
+  if (n != m)
+  {
+    return false;
+  }
+  if (s1 == s2)
+  {
+    return true;
+  }
+  if (n <= 1)
+  {
+    return false;
+  }
+  bool flag = false;
+  for (int i = 1; i < n; i++)
+  {
+    bool cond1 = (solve(s1.substr(0, i), s2.substr(n - i, i)) && solve(s1.substr(i, n - i), s2.substr(0, n - i)));
+    bool cond2 = (solve(s1.substr(0, i), s2.substr(0, i)) && solve(s1.substr(i, n - i), s2.substr(i, n - i)));
+    if (cond1 || cond2)
+    {
+      flag = true;
+      break;
+    }
+  }
+  return flag;
+}
+
+// Memoization
+
+int main()
+{
+  string s1 = "great";
+  string s2 = "rgeat";
+
+  int n = s1.length();
+  int m = s2.length();
+
+  if (n != m)
+  {
+    cout << false << endl;
+    return 0;
+  }
+  if (s1 == s2)
+  {
+    cout << true << endl;
+    return 0;
+  }
+  cout << solve(s1, s2);
   return 0;
 }
