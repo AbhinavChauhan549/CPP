@@ -430,11 +430,58 @@ int EDP(int eggs, int floors)
   }
   return min;
 }
+
+// Memorized Approach
+int EDPMemorized(int eggs, int floors, int **dp)
+{
+
+  if (eggs == 1 || floors == 0 || floors == 1)
+  {
+    return floors;
+  }
+
+  if (dp[eggs][floors] != -1)
+  {
+    return dp[eggs][floors];
+  }
+
+  int min = INT_MAX;
+
+  for (int i = 1; i <= floors; i++)
+  {
+    int left = EDPMemorized(eggs - 1, i - 1, dp);
+    int right = EDPMemorized(eggs, floors - i, dp);
+    int steps = 1 + max(left, right);
+    if (steps < min)
+    {
+      min = steps;
+    }
+  }
+  return dp[eggs][floors] = min;
+}
+
 int main()
 {
   int egg = 3;
   int floor = 5;
 
-  cout << EDP(egg, floor);
+  cout << EDP(egg, floor) << endl;
+
+  int **dp = new int *[egg + 1];
+
+  for (int i = 0; i < egg + 1; i++)
+  {
+    dp[i] = new int[floor + 1];
+  }
+
+  for (int i = 0; i < egg + 1; i++)
+  {
+    for (int j = 0; j < floor + 1; j++)
+    {
+      dp[i][j] = -1;
+    }
+  }
+
+  cout << EDPMemorized(egg, floor, dp);
   return 0;
 }
