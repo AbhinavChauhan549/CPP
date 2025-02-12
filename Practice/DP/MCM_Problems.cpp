@@ -299,11 +299,12 @@ int main()
 //==============================================================================================================================================
 
 // 4. Scramble String
-
+/*
 #include <iostream>
+#include <unordered_map>
 using namespace std;
 
-bool solve(string s1, string s2)
+bool solveRecursive(string s1, string s2)
 {
 
   int n = s1.length();
@@ -324,8 +325,8 @@ bool solve(string s1, string s2)
   bool flag = false;
   for (int i = 1; i < n; i++)
   {
-    bool cond1 = (solve(s1.substr(0, i), s2.substr(n - i, i)) && solve(s1.substr(i, n - i), s2.substr(0, n - i)));
-    bool cond2 = (solve(s1.substr(0, i), s2.substr(0, i)) && solve(s1.substr(i, n - i), s2.substr(i, n - i)));
+    bool cond1 = (solveRecursive(s1.substr(0, i), s2.substr(n - i, i)) && solveRecursive(s1.substr(i, n - i), s2.substr(0, n - i)));
+    bool cond2 = (solveRecursive(s1.substr(0, i), s2.substr(0, i)) && solveRecursive(s1.substr(i, n - i), s2.substr(i, n - i)));
     if (cond1 || cond2)
     {
       flag = true;
@@ -336,6 +337,43 @@ bool solve(string s1, string s2)
 }
 
 // Memoization
+bool solve(string s1, string s2, unordered_map<string, bool> &dp)
+{
+
+  int n = s1.length();
+  int m = s2.length();
+
+  if (n != m)
+  {
+    return false;
+  }
+  if (s1 == s2)
+  {
+    return true;
+  }
+  if (n <= 1)
+  {
+    return false;
+  }
+  string key = s1 + "_" + s2;
+  if (dp.find(key) != dp.end())
+  {
+    return dp[key];
+  }
+  bool flag = false;
+  for (int i = 1; i < n; i++)
+  {
+    bool cond1 = (solve(s1.substr(0, i), s2.substr(n - i, i), dp) && solve(s1.substr(i, n - i), s2.substr(0, n - i), dp));
+    bool cond2 = (solve(s1.substr(0, i), s2.substr(0, i), dp) && solve(s1.substr(i, n - i), s2.substr(i, n - i), dp));
+    if (cond1 || cond2)
+    {
+      flag = true;
+      break;
+    }
+  }
+  dp[key] = flag;
+  return flag;
+}
 
 int main()
 {
@@ -355,6 +393,10 @@ int main()
     cout << true << endl;
     return 0;
   }
-  cout << solve(s1, s2);
+  cout << solveRecursive(s1, s2) << endl;
+  unordered_map<string, bool> dp;
+  cout << solve(s1, s2, dp);
+
   return 0;
 }
+  */
