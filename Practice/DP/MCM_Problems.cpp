@@ -522,7 +522,7 @@ int main()
 // DP on Tree
 
 // 1. Diameter of Binary Tree
-
+/*
 #include <iostream>
 #include <climits>
 using namespace std;
@@ -564,4 +564,25 @@ int main()
   int result = INT_MIN;
   // diameter(root,result);
   return result;
+}
+
+*/
+
+//==============================================================================================================================================
+
+// 2. Maximum Path Sum in a Binary Tree any node to any node
+
+int solve(Node *root, int &result)
+{
+  if (root == NULL)
+  {
+    return 0;
+  }
+  int left = solve(root->left, result);
+  int right = solve(root->right, result);
+  int temp = max(max(left, right) + root->data, root->data);
+  int ans = max(temp, root->data + left + right);
+  result = max(result, ans);
+
+  return temp;
 }
