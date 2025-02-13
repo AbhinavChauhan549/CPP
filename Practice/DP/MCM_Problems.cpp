@@ -591,7 +591,7 @@ int solve(Node *root, int &result)
 //==============================================================================================================================================
 
 // 3. Maximum Path Sum in a Binary Tree leaf to leaf
-
+/*
 int solve(Node *root, int &result)
 {
   if (root == NULL)
@@ -609,3 +609,4 @@ int solve(Node *root, int &result)
 
   return temp;
 }
+  */
