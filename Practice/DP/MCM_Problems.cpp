@@ -571,7 +571,7 @@ int main()
 //==============================================================================================================================================
 
 // 2. Maximum Path Sum in a Binary Tree any node to any node
-
+/*
 int solve(Node *root, int &result)
 {
   if (root == NULL)
@@ -581,6 +581,29 @@ int solve(Node *root, int &result)
   int left = solve(root->left, result);
   int right = solve(root->right, result);
   int temp = max(max(left, right) + root->data, root->data);
+  int ans = max(temp, root->data + left + right);
+  result = max(result, ans);
+
+  return temp;
+}
+  */
+
+//==============================================================================================================================================
+
+// 3. Maximum Path Sum in a Binary Tree leaf to leaf
+
+int solve(Node *root, int &result)
+{
+  if (root == NULL)
+  {
+    return 0;
+  }
+  int left = solve(root->left, result);
+  int right = solve(root->right, result);
+  int temp = max(left, right) + root->data if (root->left == NULL && root->right == NULL)
+  {
+    temp = max(temp, root->data);
+  }
   int ans = max(temp, root->data + left + right);
   result = max(result, ans);
 
