@@ -404,7 +404,7 @@ int main()
 //==============================================================================================================================================
 
 // 5. Egg Dropping Problem
-
+/*
 #include <iostream>
 #include <climits>
 #include <cstring>
@@ -514,4 +514,54 @@ int main()
   cout << EDPMemorized(egg, floor, dp) << endl;
   cout << EDPMemorizedOptimized(egg, floor, dp);
   return 0;
+}
+  */
+
+//==============================================================================================================================================
+
+// DP on Tree
+
+// 1. Diameter of Binary Tree
+
+#include <iostream>
+#include <climits>
+using namespace std;
+
+struct Node
+{
+  int data;
+  Node *left, *right;
+};
+
+int height(Node *root)
+{
+  if (root == NULL)
+  {
+    return 0;
+  }
+  int left = height(root->left);
+  int right = height(root->right);
+  return 1 + max(left, right);
+}
+
+int diameter(Node *root, int &result)
+{
+  if (root == NULL)
+  {
+    return 0;
+  }
+  int left = diameter(root->left, result);
+  int right = diameter(root->right, result);
+  int temp = 1 + max(left, right);
+  int ans = max(temp, 1 + left + right);
+  result = max(result, ans);
+
+  return temp;
+}
+
+int main()
+{
+  int result = INT_MIN;
+  // diameter(root,result);
+  return result;
 }
