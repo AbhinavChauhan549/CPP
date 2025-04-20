@@ -34,9 +34,10 @@ int main()
     {
       maxlen = max(maxlen, r - l + 1);
     }
+    
     r++;
   }
-
+  cout << "The length of the longest substring with at most " << k << " distinct characters is: ";
   cout << maxlen << endl;
 
   return 0;
