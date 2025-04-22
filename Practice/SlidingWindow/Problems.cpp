@@ -197,3 +197,46 @@ int main()
   return 0;
 }
 */
+
+//===============================================================================================================================================
+
+// Minimum Window Substring
+
+/*
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+class Solution {
+  public:
+      string minWindow(string s, string t) {
+      if (s.empty() || t.empty()) return "";
+
+      int hash[256] = {0};
+      for (char c : t) hash[c]++;
+
+      int l = 0, r = 0, count = t.size();
+      int minLen = INT_MAX, start = 0;
+
+      while (r < s.size()) {
+          if (hash[s[r]] > 0) count--;
+          hash[s[r]]--;
+          r++;
+
+          while (count == 0) {
+              if (r - l < minLen) {
+                  minLen = r - l;
+                  start = l;
+              }
+
+              hash[s[l]]++;
+              if (hash[s[l]] > 0) count++;
+              l++;
+          }
+      }
+
+      return minLen == INT_MAX ? "" : s.substr(start, minLen);
+  }
+
+  };
+
+  */
