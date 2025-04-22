@@ -145,3 +145,53 @@ int numberOfSubarrays(vector<int>& nums, int k) {
   return ansCnt; // Return the final count of subarrays with exactly k odd numbers
 }
   */
+
+//=========================================================================================================================================
+
+// Subarrays with k distinct integers : we have to return the number of subarrays with k distinct integers
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int atMostK(const vector<int> &nums, int k)
+{
+  unordered_map<int, int> freq;
+  int left = 0, right = 0, count = 0;
+
+  for (; right < nums.size(); ++right)
+  {
+    if (freq[nums[right]] == 0)
+      k--;
+    freq[nums[right]]++;
+
+    while (k < 0)
+    {
+      freq[nums[left]]--;
+      if (freq[nums[left]] == 0)
+        k++;
+      left++;
+    }
+
+    count += right - left + 1;
+  }
+
+  return count;
+}
+
+int subarraysWithKDistinct(const vector<int> &nums, int k)
+{
+  return atMostK(nums, k) - atMostK(nums, k - 1);
+}
+
+int main()
+{
+  vector<int> nums = {1, 2, 1, 2, 3};
+  int k = 2;
+  cout << "Number of subarrays with " << k << " distinct integers: "
+       << subarraysWithKDistinct(nums, k) << endl;
+
+  return 0;
+}
