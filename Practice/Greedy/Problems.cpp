@@ -147,3 +147,62 @@ int jump(vector<int>& nums) {
 }
     */
 //==========================================================================================================================================
+
+// Job sequencing problem
+
+/*
+Given an 2D array Jobs of size Nx3, where Jobs[i][0] represents JobID , Jobs[i][1] represents Deadline , Jobs[i][2] represents Profit associated with that job. Each Job takes 1 unit of time to complete and only one job can be scheduled at a time.
+
+
+
+The profit associated with a job is earned only if it is completed by its deadline. Find the number of jobs and maximum profit.
+
+
+Examples:
+Input : Jobs = [ [1, 4, 20] , [2, 1, 10] , [3, 1, 40] , [4, 1, 30] ]
+
+Output : 2 60
+
+Explanation : Job with JobID 3 can be performed at time t=1 giving a profit of 40.
+
+Job with JobID 1 can be performed at time t=2 giving a profit of 20.
+
+No more jobs can be scheduled, So total Profit = 40 + 20 => 60.
+
+Total number of jobs completed are two, JobID 1, JobID 3.
+
+So answer is 2 60.
+vector<int> JobScheduling(vector<vector<int>>& Jobs) {
+    // Sort the jobs based on profit in descending order
+     sort(Jobs.begin(), Jobs.end(), [](const vector<int>& a, const vector<int>& b) {
+         return a[2] > b[2];
+     });
+
+     // Find the maximum deadline
+     int maxDeadline = 0;
+     for (auto& job : Jobs) {
+         maxDeadline = max(maxDeadline, job[1]);
+     }
+
+     // Create an array to keep track of used time slots
+     vector<bool> slots(maxDeadline + 1, false); // 1-indexed
+     int countJobs = 0, totalProfit = 0;
+
+     // Try to schedule each job
+     for (auto& job : Jobs) {
+         for (int t = job[1]; t > 0; --t) {
+             if (!slots[t]) {
+                 slots[t] = true;  // Mark this slot as filled
+                 countJobs++;
+                 totalProfit += job[2];
+                 break;
+             }
+         }
+     }
+
+     return {countJobs, totalProfit};
+ }
+
+ */
+
+//===============================================================================================================================================
