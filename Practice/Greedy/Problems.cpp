@@ -469,3 +469,76 @@ bool checkValidString(string s) {
 }
 
 */
+
+//=======================================================================================================================================
+
+// Fractional knapsack problem
+
+/*
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Structure to store item details
+struct Item {
+    int value;
+    int weight;
+
+    // Constructor
+    Item(int v, int w) : value(v), weight(w) {}
+};
+
+// Comparator to sort items by decreasing value/weight ratio
+bool compare(Item a, Item b) {
+    double r1 = (double)a.value / a.weight;
+    double r2 = (double)b.value / b.weight;
+    return r1 > r2;
+}
+
+// Function to return maximum value that can be put in knapsack
+double fractionalKnapsack(int W, vector<Item> items) {
+    // Sort items by value/weight ratio
+    sort(items.begin(), items.end(), compare);
+
+    double maxValue = 0.0;  // Result
+
+    for (auto item : items) {
+        if (W == 0) break;
+
+        // If the whole item can be taken
+        if (item.weight <= W) {
+            maxValue += item.value;
+            W -= item.weight;
+        } else {
+            // Take the fractional part
+            maxValue += item.value * ((double)W / item.weight);
+            break;
+        }
+    }
+
+    return maxValue;
+}
+
+int main() {
+    int n, W;
+    cout << "Enter number of items: ";
+    cin >> n;
+    cout << "Enter knapsack capacity: ";
+    cin >> W;
+
+    vector<Item> items;
+
+    cout << "Enter value and weight for each item:\n";
+    for (int i = 0; i < n; i++) {
+        int v, w;
+        cin >> v >> w;
+        items.push_back(Item(v, w));
+    }
+
+    double result = fractionalKnapsack(W, items);
+    cout << "Maximum value in knapsack = " << result << endl;
+
+    return 0;
+}
+*/
